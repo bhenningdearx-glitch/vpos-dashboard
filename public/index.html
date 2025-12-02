@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1"
+		/>
+		<title>DOMS Dashboard</title>
+		<link
+			rel="stylesheet"
+			href="/styles.css"
+		/>
+	</head>
+	<body>
+		<header class="header">
+			<div class="header-left">
+				<h1>DOMS Dashboard</h1>
+				<p id="hostname">Loading host…</p>
+			</div>
+
+			<div class="header-center">
+				<button
+					id="refresh-btn"
+					class="pill-btn refresh-btn"
+				>
+					↻
+				</button>
+			</div>
+
+			<div class="header-right">
+				<div class="status">
+					<span class="pulse-dot"></span>
+					<span id="last-updated">Waiting for data…</span>
+				</div>
+				<div class="header-controls">
+					<button
+						id="theme-toggle"
+						class="pill-btn"
+					>
+						Light ☀
+					</button>
+					<button
+						id="density-toggle"
+						class="pill-btn"
+					>
+						Comfortable
+					</button>
+				</div>
+			</div>
+		</header>
+
+		<main class="main">
+			<!-- Memory -->
+			<section class="card span-1">
+				<div class="card-header">
+					<h2>Memory</h2>
+					<div
+						id="mem-sparkline"
+						class="sparkline"
+					></div>
+				</div>
+				<p
+					id="memory-summary"
+					class="muted"
+				>
+					Collecting metrics…
+				</p>
+				<div class="bar-container">
+					<div
+						id="memory-bar"
+						class="bar"
+					></div>
+				</div>
+			</section>
+
+			<!-- CPU -->
+			<section class="card span-1">
+				<div class="card-header">
+					<h2>CPU</h2>
+					<div
+						id="cpu-sparkline"
+						class="sparkline"
+					></div>
+				</div>
+				<p
+					id="cpu-summary"
+					class="muted"
+				>
+					Collecting metrics…
+				</p>
+				<div class="bar-container">
+					<div
+						id="cpu-bar"
+						class="bar"
+					></div>
+				</div>
+				<p
+					id="temp-summary"
+					class="muted small"
+				></p>
+			</section>
+
+			<!-- Load -->
+			<section class="card span-1">
+				<div class="card-header">
+					<h2>Load Averages</h2>
+					<div
+						id="load-sparkline"
+						class="sparkline"
+					></div>
+				</div>
+				<p
+					id="load-values"
+					class="load-values"
+				>
+					–
+				</p>
+				<p class="muted small">
+					Runnable / waiting processes over 1, 5, and 15 minutes.
+				</p>
+			</section>
+
+			<!-- Tracked storage -->
+			<section class="card span-3">
+				<h2>Tracked Storage</h2>
+				<p class="muted small">
+					/media/appfs is treated as total storage; tracking subdirectories
+					under
+					<code>/opt/fccapps/vpos-perm/</code>.
+				</p>
+				<div class="bar-container">
+					<div
+						id="storage-bar"
+						class="bar"
+					></div>
+				</div>
+				<p
+					id="storage-summary"
+					class="muted small"
+				></p>
+
+				<div class="dir-panel">
+					<div class="dir-nav">
+						<button
+							id="dir-back"
+							class="pill-btn small-btn hidden"
+						>
+							← Back
+						</button>
+						<div
+							id="dir-path-label"
+							class="muted small"
+						></div>
+					</div>
+
+					<div
+						id="dirs-list"
+						class="dir-list"
+					></div>
+
+					<div
+						id="dir-details"
+						class="dir-details muted small"
+					>
+						Select a directory to see its share of /media/appfs.
+					</div>
+				</div>
+
+				<div class="dir-input">
+					<label
+						for="dir-path"
+						class="muted small"
+					>
+						Inspect another directory (children):
+					</label>
+					<div class="dir-input-row">
+						<input
+							id="dir-path"
+							type="text"
+							class="dir-input-field"
+							placeholder="/opt/fccapps/some-other-dir"
+						/>
+						<button
+							id="dir-fetch"
+							class="pill-btn small-btn"
+						>
+							Fetch
+						</button>
+					</div>
+					<div
+						id="dir-input-result"
+						class="muted small"
+					></div>
+				</div>
+			</section>
+
+			<!-- Disks -->
+			<section class="card span-3">
+				<h2>Disks</h2>
+				<div class="table-wrapper">
+					<table id="disks-table">
+						<thead>
+							<tr>
+								<th>Filesystem</th>
+								<th>Size</th>
+								<th>Used</th>
+								<th>Avail</th>
+								<th>% Used</th>
+								<th>Mounted on</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</section>
+
+			<!-- Top processes -->
+			<section class="card span-3">
+				<h2>Top Processes (by memory)</h2>
+				<p
+					id="procs-empty"
+					class="muted small hidden"
+				>
+					No process data available. Check <code>ps</code> on this system.
+				</p>
+				<div class="table-wrapper">
+					<table id="procs-table">
+						<thead>
+							<tr>
+								<th>PID</th>
+								<th>User</th>
+								<th>VSZ (KiB)</th>
+								<th>STAT</th>
+								<th>Command</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</section>
+		</main>
+
+		<script
+			src="/app.js"
+			defer
+		></script>
+	</body>
+</html>
