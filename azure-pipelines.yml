@@ -1,21 +1,21 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
-- main
+  branches: { include: ["*"] }
+  tags: { include: [v*] }
 
-pool:
-  vmImage: ubuntu-latest
+pr:
+  branches: { include: [main] }
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '20.x'
-  displayName: 'Install Node.js'
+resources:
+  repositories:
+    - repository: ci
+      type: git
+      name: VPOS/vpos-mono-package-mgr
+      ref: refs/heads/main
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+extends:
+  template: azure/templates/node-lib.yml@ci
+  parameters:
+    consumerPath: "vpos-dashboard"
+    nodeVersion: "18.x"
+    mainBranch: "refs/heads/main"
+    runChangelogSync: true
